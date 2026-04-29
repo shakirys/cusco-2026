@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSCO 2026 — Captura en Línea</title>
+<style>
+/* ── Variables institucionales ─────────────────────────────── */
+:root {
+  --vino:       #611232;
+  --vino-dark:  #4a0d25;
+  --verde:      #002f2a;
+  --verde-med:  #004a42;
+  --dorado:     #a57f2c;
+  --beige:      #e6d194;
+  --beige-light:#f8f5ec;
+  --gris:       #4d4d4d;
+  --gris-light: #f0ece0;
+  --border:     #d8d4c4;
+  --white:      #ffffff;
+  --radius:     8px;
+  --shadow:     0 2px 12px rgba(0,47,42,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--beige-light);
+  color: var(--gris);
+  min-height: 100vh;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.site-header {
+  background: var(--verde);
+  padding: 0 24px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-brand { display: flex; align-items: center; gap: 12px; }
+.brand-box {
+  width: 38px; height: 38px;
+  background: var(--vino);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; color: var(--beige);
+  letter-spacing: 0.5px;
+}
+.brand-name { color: var(--beige); font-size: 16px; font-weight: 700; }
+.brand-sub  { color: var(--dorado); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+.header-badge {
+  background: rgba(165,127,44,0.15);
+  border: 1px solid rgba(165,127,44,0.4);
+  color: var(--beige);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Contenedor principal ──────────────────────────────────── */
+.page-wrap {
+  max-width: 860px;
+  margin: 32px auto;
+  padding: 0 16px 60px;
+}
+
+/* ── Título de página ──────────────────────────────────────── */
+.page-title {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.page-title h1 {
+  font-size: 24px;
+  color: var(--verde);
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.page-title p {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ── Indicador de pasos ────────────────────────────────────── */
+.steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  gap: 0;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.step-circle {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  color: #aaa;
+  transition: all 0.2s;
+}
+.step-label {
+  font-size: 10px;
+  color: #aaa;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.step-item.active .step-circle {
+  background: var(--vino);
+  border-color: var(--vino);
+  color: white;
+}
+.step-item.active .step-label { color: var(--vino); }
+.step-item.done .step-circle {
+  background: var(--verde);
+  border-color: var(--verde);
+  color: white;
+}
+.step-item.done .step-label { color: var(--verde); }
+.step-connector {
+  width: 36px; height: 2px;
+  background: var(--border);
+  flex-shrink: 0;
+  margin-bottom: 22px;
+  transition: background 0.2s;
+}
+.step-connector.done { background: var(--verde); }
+
+/* ── Tarjeta de sección ────────────────────────────────────── */
+.form-card {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid #e0dbc8;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: none;
+}
+.form-card.active { display: block; }
+
+.card-header {
+  background: var(--verde);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.card-header-num {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--vino);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+  flex-shrink: 0;
+}
+.card-header-title { color: white; font-size: 15px; font-weight: 700; }
+.card-header-sub   { color: var(--beige); font-size: 12px; opacity: 0.8; }
+
+.card-body { padding: 28px; }
+
+/* ── Grid de campos ────────────────────────────────────────── */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.field-full  { grid-column: 1 / -1; }
+.field-third { grid-column: span 1; }
+
+/* ── Campo individual ──────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--verde);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.field label .req { color: var(--vino); margin-left: 2px; }
+
+.field input,
+.field select,
+.field textarea {
+  padding: 10px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--gris);
+  background: white;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--vino);
+  box-shadow: 0 0 0 3px rgba(97,18,50,0.08);
+}
+.field input[readonly] {
+  background: var(--beige-light);
+  color: var(--verde);
+  font-weight: 700;
+  cursor: default;
+}
+.field textarea { resize: vertical; min-height: 80px; }
+
+/* ── Campo calculado ───────────────────────────────────────── */
+.calc-result {
+  padding: 10px 13px;
+  background: var(--beige-light);
+  border: 1.5px solid var(--beige);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--verde);
+  min-height: 40px;
+}
+.calc-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+.badge-normal   { background: #d4edda; color: #155724; }
+.badge-sobrepeso{ background: #fff3cd; color: #856404; }
+.badge-obesidad { background: #f8d7da; color: #721c24; }
+.badge-bajo     { background: #cce5ff; color: #004085; }
+.badge-riesgo   { background: #fff3cd; color: #856404; }
+.badge-alto     { background: #f8d7da; color: #721c24; }
+
+/* ── Radio / checkbox grupo ────────────────────────────────── */
+.radio-group, .check-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+.radio-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s;
+  user-select: none;
+}
+.radio-btn input { display: none; }
+.radio-btn:hover { border-color: var(--vino); background: #fdf8f9; }
+.radio-btn.selected {
+  border-color: var(--vino);
+  background: var(--vino);
+  color: white;
+}
+
+/* ── Escala PHQ ────────────────────────────────────────────── */
+.scale-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 4px;
+}
+.scale-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 6px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  text-align: center;
+  transition: all 0.15s;
+  line-height: 1.3;
+}
+.scale-btn:hover { border-color: var(--vino); }
+.scale-btn.selected { border-color: var(--vino); background: var(--vino); color: white; }
+.scale-num { font-size: 16px; font-weight: 800; }
+
+/* ── PHQ-9 condicional ─────────────────────────────────────── */
+.phq9-section {
+  display: none;
+  margin-top: 24px;
+  padding: 20px;
+  background: #fff8f0;
+  border: 1.5px solid #ffd5a0;
+  border-radius: 10px;
+}
+.phq9-section.show { display: block; }
+.phq9-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #fff3cd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #856404;
+  margin-bottom: 18px;
+}
+
+/* ── Fila de pregunta PHQ ──────────────────────────────────── */
+.phq-row {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0ece0;
+}
+.phq-row:last-child { border-bottom: none; margin-bottom: 0; }
+.phq-question {
+  font-size: 13px;
+  color: var(--gris);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* ── Subtítulo de sección ──────────────────────────────────── */
+.section-divider {
+  grid-column: 1 / -1;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dorado);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 14px 0 6px;
+  border-bottom: 1.5px solid var(--beige);
+  margin-bottom: 4px;
+}
+
+/* ── Botones de navegación ─────────────────────────────────── */
+.nav-btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gris-light);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 24px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-prev {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--gris);
+}
+.btn-prev:hover { background: var(--gris-light); }
+.btn-next {
+  background: var(--verde);
+  color: white;
+}
+.btn-next:hover { background: var(--verde-med); }
+.btn-submit {
+  background: var(--vino);
+  color: white;
+}
+.btn-submit:hover:not(:disabled) { background: var(--vino-dark); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Pantalla de éxito ─────────────────────────────────────── */
+#success-screen {
+  display: none;
+  text-align: center;
+  padding: 60px 32px;
+}
+#success-screen.show { display: block; }
+.success-icon {
+  width: 80px; height: 80px;
+  background: var(--verde);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 36px;
+}
+.success-title { font-size: 24px; font-weight: 800; color: var(--verde); margin-bottom: 8px; }
+.success-folio {
+  display: inline-block;
+  padding: 8px 24px;
+  background: var(--beige-light);
+  border: 1.5px solid var(--beige);
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vino);
+  letter-spacing: 1px;
+  margin: 16px 0;
+}
+.success-sub  { font-size: 14px; color: #888; margin-bottom: 32px; }
+.btn-nuevo    { background: var(--vino); color: white; margin: 0 auto; }
+
+/* ── Spinner ────────────────────────────────────────────────── */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Toast de error ────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--vino);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 999;
+}
+
+/* ── Aviso de configuración ────────────────────────────────── */
+#config-banner {
+  background: #fff3cd;
+  border: 1.5px solid #ffc107;
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #856404;
+  display: none;
+}
+#config-banner strong { display: block; font-size: 14px; margin-bottom: 4px; }
+
+@media (max-width: 600px) {
+  .field-grid { grid-template-columns: 1fr; }
+  .field-full { grid-column: 1; }
+  .scale-group { grid-template-columns: repeat(2,1fr); }
+  .card-body { padding: 18px; }
+  .steps-bar { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────────────────────────── -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="brand-box">SC</div>
+    <div>
+      <div class="brand-name">SierraConecta</div>
+      <div class="brand-sub">Sierra Gorda · Querétaro</div>
+    </div>
+  </div>
+  <span class="header-badge">CUSCO 2026</span>
+</header>
+
+<!-- ── Contenido ──────────────────────────────────────────────────────── -->
+<div class="page-wrap">
+
+  <div class="page-title">
+    <h1>Captura de Encuesta CUSCO 2026</h1>
+    <p>Todos los campos marcados con <span style="color:var(--vino)">*</span> son obligatorios</p>
+  </div>
+
+  <!-- Aviso si el script no está configurado -->
+  <div id="config-banner">
+    <strong>⚠️ Configuración pendiente</strong>
+    Antes de usar este formulario, abre el código fuente y reemplaza <code>URL_DE_TU_APPS_SCRIPT</code> con la URL de tu implementación de Google Apps Script.
+  </div>
+
+  <!-- Barra de pasos -->
+  <div class="steps-bar" id="steps-bar">
+    <div class="step-item active" data-step="0">
+      <div class="step-circle">1</div>
+      <div class="step-label">Identificación</div>
+    </div>
+    <div class="step-connector" id="conn-0"></div>
+    <div class="step-item" data-step="1">
+      <div class="step-circle">2</div>
+      <div class="step-label">Antropometría</div>
+    </div>
+    <div class="step-connector" id="conn-1"></div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">3</div>
+      <div class="step-label">Hábitos</div>
+    </div>
+    <div class="step-connector" id="conn-2"></div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">4</div>
+      <div class="step-label">Salud Mental</div>
+    </div>
+    <div class="step-connector" id="conn-3"></div>
+    <div class="step-item" data-step="4">
+      <div class="step-circle">5</div>
+      <div class="step-label">Revisión</div>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 1: IDENTIFICACIÓN ══════════════════════════════════════ -->
+  <div class="form-card active" id="step-0">
+    <div class="card-header">
+      <div class="card-header-num">1</div>
+      <div>
+        <div class="card-header-title">Datos de Identificación</div>
+        <div class="card-header-sub">Información general del encuestado</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid">
+
+        <div class="field">
+          <label>No. de Registro</label>
+          <input type="text" id="no_registro" placeholder="Auto-generado" readonly>
+        </div>
+
+        <div class="field">
+          <label>Fecha de Aplicación <span class="req">*</span></label>
+          <input type="date" id="fecha_aplicacion" required>
+        </div>
+
+        <div class="field">
+          <label>CURP <span class="req">*</span></label>
+          <input type="text" id="id_encuestado" placeholder="Ej: HEGJ800101HQTRNS09" maxlength="18" oninput="this.value=this.value.toUpperCase()" style="text-transform:uppercase" required>
+        </div>
+
+        <div class="field">
+          <label>Capturista <span class="req">*</span></label>
+          <input type="text" id="capturista" placeholder="Nombre de quien captura" required>
+        </div>
+
+        <div class="field field-full">
+          <label>Nombre Completo <span class="req">*</span></label>
+          <input type="text" id="nombre_completo" placeholder="Apellido paterno, materno, nombre(s)" required>
+        </div>
+
+        <div class="section-divider">Ubicación</div>
+
+        <div class="field">
+          <label>Municipio <span class="req">*</span></label>
+          <select id="municipio" required>
+            <option value="">— Selecciona municipio —</option>
+            <option>Arroyo Seco</option>
+            <option>Cadereyta de Montes</option>
+            <option>Colón</option>
+            <option>Ezequiel Montes</option>
+            <option>Huimilpan</option>
+            <option>Jalpan de Serra</option>
+            <option>Landa de Matamoros</option>
+            <option>Peñamiller</option>
+            <option>Pinal de Amoles</option>
+            <option>San Joaquín</option>
+            <option>Tolimán</option>
+            <option>Amealco de Bonfil</option>
+            <option>El Marqués</option>
+            <option>Corregidora</option>
+            <option>Pedro Escobedo</option>
+            <option>San Juan del Río</option>
+            <option>Querétaro</option>
+            <option>Tequisquiapan</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Localidad <span class="req">*</span></label>
+          <input type="text" id="localidad" placeholder="Nombre de la localidad" required>
+        </div>
+
+        <div class="field field-full">
+          <label>Dirección</label>
+          <input type="text" id="direccion" placeholder="Calle, número, colonia">
+        </div>
+
+        <div class="field">
+          <label>Teléfono</label>
+          <input type="tel" id="telefono" placeholder="10 dígitos">
+        </div>
+
+        <div class="section-divider">Datos Personales</div>
+
+        <div class="field">
+          <label>Fecha de Nacimiento <span class="req">*</span></label>
+          <input type="date" id="fecha_nacimiento" required oninput="calcEdad()">
+        </div>
+
+        <div class="field">
+          <label>Edad (años)</label>
+          <input type="number" id="edad" placeholder="Calculada automáticamente" readonly>
+        </div>
+
+        <div class="field field-full">
+          <label>Sexo <span class="req">*</span></label>
+          <div class="radio-group" id="sexo-group">
+            <label class="radio-btn"><input type="radio" name="sexo" value="Hombre" onclick="toggleOtroSexo(false)"> Hombre</label>
+            <label class="radio-btn"><input type="radio" name="sexo" value="Mujer" onclick="toggleOtroSexo(false)"> Mujer</label>
+            <label class="radio-btn"><input type="radio" name="sexo" value="Otro" onclick="toggleOtroSexo(true)"> Otro</label>
+          </div>
+          <div id="otro-sexo-wrap" style="display:none; margin-top:10px;">
+            <input type="text" id="otro_sexo" placeholder="Especifica..." maxlength="60"
+              style="padding:10px 13px;border:1.5px solid #d8d4c4;border-radius:8px;font-size:14px;width:100%;font-family:inherit;outline:none;"
+              oninput="actualizarSexoOtro(this.value)">
+          </div>
+          <input type="hidden" id="sexo_final" name="sexo_final">
+        </div>
+
+        <div class="field">
+          <label>Estado Civil</label>
+          <select id="estado_civil">
+            <option value="">— Selecciona —</option>
+            <option>Soltero/a</option>
+            <option>Casado/a</option>
+            <option>Unión libre</option>
+            <option>Divorciado/a</option>
+            <option>Viudo/a</option>
+            <option>Separado/a</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Escolaridad</label>
+          <select id="escolaridad">
+            <option value="">— Selecciona —</option>
+            <option>Sin escolaridad</option>
+            <option>Primaria incompleta</option>
+            <option>Primaria completa</option>
+            <option>Secundaria</option>
+            <option>Preparatoria/Bachillerato</option>
+            <option>Técnico/Vocacional</option>
+            <option>Licenciatura</option>
+            <option>Posgrado</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Ocupación</label>
+          <select id="ocupacion">
+            <option value="">— Selecciona —</option>
+            <option>Hogar</option>
+            <option>Agricultor/a</option>
+            <option>Empleado/a</option>
+            <option>Comerciante</option>
+            <option>Estudiante</option>
+            <option>Jubilado/a</option>
+            <option>Desempleado/a</option>
+            <option>Otro</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Seguridad Social</label>
+          <select id="seguridad_social">
+            <option value="">— Selecciona —</option>
+            <option>IMSS</option>
+            <option>ISSSTE</option>
+            <option>Seguro Popular / INSABI</option>
+            <option>IMSS Bienestar</option>
+            <option>Privado</option>
+            <option>Ninguno</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="nav-btns">
+        <span></span>
+        <button class="btn btn-next" onclick="goStep(1)">Siguiente → Antropometría</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 2: ANTROPOMETRÍA ═══════════════════════════════════════ -->
+  <div class="form-card" id="step-1">
+    <div class="card-header">
+      <div class="card-header-num">2</div>
+      <div>
+        <div class="card-header-title">Medidas Antropométricas</div>
+        <div class="card-header-sub">IMC e ICC se calculan automáticamente</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid">
+
+        <div class="section-divider">Somatometría</div>
+
+        <div class="field">
+          <label>Peso (kg) <span class="req">*</span></label>
+          <input type="number" id="peso" step="0.1" min="1" max="300" placeholder="Ej: 68.5" oninput="calcIMC()">
+        </div>
+
+        <div class="field">
+          <label>Talla (m) <span class="req">*</span></label>
+          <input type="number" id="talla" step="0.01" min="0.5" max="2.5" placeholder="Ej: 1.65" oninput="calcIMC()">
+        </div>
+
+        <div class="field">
+          <label>IMC (calculado)</label>
+          <div class="calc-result" id="imc-display">—</div>
+          <input type="hidden" id="imc">
+          <input type="hidden" id="clasificacion_imc">
+        </div>
+
+        <div class="field">
+          <label>Clasificación IMC</label>
+          <div class="calc-result" id="imc-clasif-display">—</div>
+        </div>
+
+        <div class="section-divider">Circunferencias</div>
+
+        <div class="field">
+          <label>Cintura (cm) <span class="req">*</span></label>
+          <input type="number" id="cintura" step="0.1" placeholder="Ej: 88.0" oninput="calcICC()">
+        </div>
+
+        <div class="field">
+          <label>Cadera (cm) <span class="req">*</span></label>
+          <input type="number" id="cadera" step="0.1" placeholder="Ej: 100.0" oninput="calcICC()">
+        </div>
+
+        <div class="field">
+          <label>ICC (calculado)</label>
+          <div class="calc-result" id="icc-display">—</div>
+          <input type="hidden" id="icc">
+          <input type="hidden" id="clasificacion_icc">
+        </div>
+
+        <div class="field">
+          <label>Clasificación ICC</label>
+          <div class="calc-result" id="icc-clasif-display">—</div>
+        </div>
+
+        <div class="section-divider">Signos Vitales</div>
+
+        <div class="field">
+          <label>Presión Sistólica (mmHg)</label>
+          <input type="number" id="presion_sistolica" placeholder="Ej: 120">
+        </div>
+
+        <div class="field">
+          <label>Presión Diastólica (mmHg)</label>
+          <input type="number" id="presion_diastolica" placeholder="Ej: 80">
+        </div>
+
+        <div class="field">
+          <label>Glucosa (mg/dL)</label>
+          <input type="number" id="glucosa" placeholder="Ej: 95">
+        </div>
+
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-prev" onclick="goStep(0)">← Anterior</button>
+        <button class="btn btn-next" onclick="goStep(2)">Siguiente → Hábitos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 3: HÁBITOS ══════════════════════════════════════════════ -->
+  <div class="form-card" id="step-2">
+    <div class="card-header">
+      <div class="card-header-num">3</div>
+      <div>
+        <div class="card-header-title">Hábitos y Estilo de Vida</div>
+        <div class="card-header-sub">Actividad física, alimentación y consumo de sustancias</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="field-grid">
+
+        <div class="section-divider">Actividad Física</div>
+
+        <div class="field field-full">
+          <label>¿Realiza actividad física? <span class="req">*</span></label>
+          <div class="radio-group" id="actividad_fisica-group">
+            <label class="radio-btn"><input type="radio" name="actividad_fisica" value="Sí"> Sí</label>
+            <label class="radio-btn"><input type="radio" name="actividad_fisica" value="No"> No</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>Frecuencia de actividad física</label>
+          <div class="radio-group" id="frecuencia_actividad-group">
+            <label class="radio-btn"><input type="radio" name="frecuencia_actividad" value="Nunca"> Nunca</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_actividad" value="Rara vez"> Rara vez</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_actividad" value="1-2 veces/semana"> 1-2 veces/sem</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_actividad" value="3-4 veces/semana"> 3-4 veces/sem</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_actividad" value="Diario"> Diario</label>
+          </div>
+        </div>
+
+        <div class="section-divider">Tabaco y Alcohol</div>
+
+        <div class="field field-full">
+          <label>¿Consume tabaco?</label>
+          <div class="radio-group" id="consume_tabaco-group">
+            <label class="radio-btn"><input type="radio" name="consume_tabaco" value="Sí"> Sí</label>
+            <label class="radio-btn"><input type="radio" name="consume_tabaco" value="No"> No</label>
+            <label class="radio-btn"><input type="radio" name="consume_tabaco" value="Ex-fumador"> Ex-fumador/a</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Cigarros por día</label>
+          <input type="number" id="cigarros_dia" min="0" max="100" placeholder="0">
+        </div>
+
+        <div class="field field-full">
+          <label>¿Consume alcohol?</label>
+          <div class="radio-group" id="consume_alcohol-group">
+            <label class="radio-btn"><input type="radio" name="consume_alcohol" value="Sí"> Sí</label>
+            <label class="radio-btn"><input type="radio" name="consume_alcohol" value="No"> No</label>
+            <label class="radio-btn"><input type="radio" name="consume_alcohol" value="Ocasional"> Ocasional</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>Frecuencia de consumo de alcohol</label>
+          <div class="radio-group" id="frecuencia_alcohol-group">
+            <label class="radio-btn"><input type="radio" name="frecuencia_alcohol" value="Nunca"> Nunca</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_alcohol" value="Rara vez"> Rara vez</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_alcohol" value="Mensual"> Mensual</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_alcohol" value="Semanal"> Semanal</label>
+            <label class="radio-btn"><input type="radio" name="frecuencia_alcohol" value="Diario"> Diario</label>
+          </div>
+        </div>
+
+        <div class="section-divider">Alimentación</div>
+
+        <div class="field field-full">
+          <label>¿Consume frutas y verduras diariamente?</label>
+          <div class="radio-group" id="consume_frutas_verduras-group">
+            <label class="radio-btn"><input type="radio" name="consume_frutas_verduras" value="Siempre"> Siempre</label>
+            <label class="radio-btn"><input type="radio" name="consume_frutas_verduras" value="Casi siempre"> Casi siempre</label>
+            <label class="radio-btn"><input type="radio" name="consume_frutas_verduras" value="A veces"> A veces</label>
+            <label class="radio-btn"><input type="radio" name="consume_frutas_verduras" value="Rara vez"> Rara vez</label>
+            <label class="radio-btn"><input type="radio" name="consume_frutas_verduras" value="Nunca"> Nunca</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>¿Consume agua simple (≥6 vasos/día)?</label>
+          <div class="radio-group" id="consume_agua_simple-group">
+            <label class="radio-btn"><input type="radio" name="consume_agua_simple" value="Sí"> Sí</label>
+            <label class="radio-btn"><input type="radio" name="consume_agua_simple" value="No"> No</label>
+            <label class="radio-btn"><input type="radio" name="consume_agua_simple" value="A veces"> A veces</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>¿Consume comida chatarra?</label>
+          <div class="radio-group" id="consume_comida_chatarra-group">
+            <label class="radio-btn"><input type="radio" name="consume_comida_chatarra" value="Nunca"> Nunca</label>
+            <label class="radio-btn"><input type="radio" name="consume_comida_chatarra" value="Rara vez"> Rara vez</label>
+            <label class="radio-btn"><input type="radio" name="consume_comida_chatarra" value="A veces"> A veces</label>
+            <label class="radio-btn"><input type="radio" name="consume_comida_chatarra" value="Casi siempre"> Casi siempre</label>
+            <label class="radio-btn"><input type="radio" name="consume_comida_chatarra" value="Siempre"> Siempre</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>¿Consume bebidas azucaradas?</label>
+          <div class="radio-group" id="consume_bebidas_azucaradas-group">
+            <label class="radio-btn"><input type="radio" name="consume_bebidas_azucaradas" value="Nunca"> Nunca</label>
+            <label class="radio-btn"><input type="radio" name="consume_bebidas_azucaradas" value="Rara vez"> Rara vez</label>
+            <label class="radio-btn"><input type="radio" name="consume_bebidas_azucaradas" value="A veces"> A veces</label>
+            <label class="radio-btn"><input type="radio" name="consume_bebidas_azucaradas" value="Casi siempre"> Casi siempre</label>
+            <label class="radio-btn"><input type="radio" name="consume_bebidas_azucaradas" value="Siempre"> Siempre</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="nav-btns">
+        <button class="btn btn-prev" onclick="goStep(1)">← Anterior</button>
+        <button class="btn btn-next" onclick="goStep(3)">Siguiente → Salud Mental</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 4: SALUD MENTAL ════════════════════════════════════════ -->
+  <div class="form-card" id="step-3">
+    <div class="card-header">
+      <div class="card-header-num">4</div>
+      <div>
+        <div class="card-header-title">Salud Mental — PHQ-2 / PHQ-9</div>
+        <div class="card-header-sub">El PHQ-9 aparece si el puntaje PHQ-2 es ≥ 3</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <p style="font-size:13px;color:#666;margin-bottom:20px;">
+        Durante las <strong>últimas 2 semanas</strong>, ¿con qué frecuencia le han molestado los siguientes problemas?
+      </p>
+
+      <!-- PHQ-2 -->
+      <div class="phq-row">
+        <div class="phq-question">
+          <strong>1.</strong> Poco interés o placer en hacer las cosas
+        </div>
+        <div class="scale-group" id="phq2_p1-group">
+          <div class="scale-btn" onclick="setScale('phq2_p1',0,this)"><span class="scale-num">0</span>Nunca</div>
+          <div class="scale-btn" onclick="setScale('phq2_p1',1,this)"><span class="scale-num">1</span>Varios días</div>
+          <div class="scale-btn" onclick="setScale('phq2_p1',2,this)"><span class="scale-num">2</span>Más de la mitad</div>
+          <div class="scale-btn" onclick="setScale('phq2_p1',3,this)"><span class="scale-num">3</span>Casi todos los días</div>
+        </div>
+        <input type="hidden" id="phq2_p1" value="">
+      </div>
+
+      <div class="phq-row">
+        <div class="phq-question">
+          <strong>2.</strong> Sentirse desanimado/a, deprimido/a o sin esperanza
+        </div>
+        <div class="scale-group" id="phq2_p2-group">
+          <div class="scale-btn" onclick="setScale('phq2_p2',0,this)"><span class="scale-num">0</span>Nunca</div>
+          <div class="scale-btn" onclick="setScale('phq2_p2',1,this)"><span class="scale-num">1</span>Varios días</div>
+          <div class="scale-btn" onclick="setScale('phq2_p2',2,this)"><span class="scale-num">2</span>Más de la mitad</div>
+          <div class="scale-btn" onclick="setScale('phq2_p2',3,this)"><span class="scale-num">3</span>Casi todos los días</div>
+        </div>
+        <input type="hidden" id="phq2_p2" value="">
+      </div>
+
+      <div style="padding:12px 16px;background:var(--beige-light);border-radius:8px;margin:16px 0;">
+        <span style="font-size:13px;font-weight:700;color:var(--verde);">Puntaje PHQ-2: </span>
+        <span id="phq2-score-display" style="font-size:18px;font-weight:800;color:var(--vino);">—</span>
+        <input type="hidden" id="puntaje_phq2">
+      </div>
+
+      <!-- PHQ-9 (condicional) -->
+      <div class="phq9-section" id="phq9-section">
+        <div class="phq9-alert">
+          ⚠️ Puntaje PHQ-2 ≥ 3 — Por favor complete el PHQ-9
+        </div>
+
+        <p style="font-size:13px;color:#666;margin-bottom:16px;">
+          Durante las <strong>últimas 2 semanas</strong>, ¿con qué frecuencia le han molestado los siguientes problemas?
+        </p>
+
+        <div id="phq9-questions"></div>
+
+        <div style="padding:12px 16px;background:var(--beige-light);border-radius:8px;margin-top:16px;">
+          <span style="font-size:13px;font-weight:700;color:var(--verde);">Puntaje PHQ-9: </span>
+          <span id="phq9-score-display" style="font-size:18px;font-weight:800;color:var(--vino);">—</span>
+          &nbsp;
+          <span id="phq9-clasif-display" style="font-size:13px;font-weight:700;"></span>
+          <input type="hidden" id="puntaje_phq9">
+          <input type="hidden" id="clasificacion_phq9">
+        </div>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn btn-prev" onclick="goStep(2)">← Anterior</button>
+        <button class="btn btn-next" onclick="goStep(4)">Siguiente → Revisión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECCIÓN 5: REVISIÓN Y ENVÍO ════════════════════════════════════ -->
+  <div class="form-card" id="step-4">
+    <div class="card-header">
+      <div class="card-header-num">5</div>
+      <div>
+        <div class="card-header-title">Revisión y Envío</div>
+        <div class="card-header-sub">Verifica los datos antes de guardar</div>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div id="review-content" style="font-size:13px;"></div>
+
+      <div class="field" style="margin-top:20px;">
+        <label>Observaciones generales</label>
+        <textarea id="observaciones" placeholder="Notas adicionales sobre la encuesta..." rows="3"></textarea>
+      </div>
+
+      <div class="nav-btns">
+        <button class="btn btn-prev" onclick="goStep(3)">← Anterior</button>
+        <button class="btn btn-submit" id="btn-submit" onclick="submitForm()">
+          <span id="btn-text">Guardar en Google Sheets</span>
+          <div class="spinner" id="btn-spinner"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANTALLA DE ÉXITO ══════════════════════════════════════════════ -->
+  <div id="success-screen" class="form-card">
+    <div class="card-body">
+    <div style="text-align:center;padding:40px 20px;">
+      <div class="success-icon">✓</div>
+      <div class="success-title">¡Registro guardado!</div>
+      <div class="success-folio" id="success-folio">—</div>
+      <div class="success-sub">El registro fue guardado exitosamente en Google Sheets.</div>
+      <button class="btn btn-nuevo" onclick="resetForm()">
+        + Capturar nuevo registro
+      </button>
+    </div>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<div id="toast"></div>
+
+<script>
+// ── CONFIGURACIÓN ──────────────────────────────────────────────────────────
+// ⚠️  IMPORTANTE: Reemplaza esta URL con la URL de tu Apps Script desplegado
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIXAlC6GhPkRVjXKunLs33lQFLiz6fOAlK2-YHY2XOQHDuxQgfFVy_G_XHU9pViAtj/exec";
+
+// ── Estado ─────────────────────────────────────────────────────────────────
+var currentStep = 0;
+var totalSteps  = 5;
+var phq9Values  = {};
+
+// ── Preguntas PHQ-9 ────────────────────────────────────────────────────────
+var PHQ9_QUESTIONS = [
+  "Poco interés o placer en hacer las cosas",
+  "Sentirse desanimado/a, deprimido/a o sin esperanza",
+  "Dificultad para dormir, permanecer dormido/a o dormir demasiado",
+  "Sentirse cansado/a o tener poca energía",
+  "Poco apetito o comer en exceso",
+  "Sentirse mal consigo mismo/a — o que es un fracaso o que ha fallado a sí mismo/a o a su familia",
+  "Dificultad para concentrarse en cosas tales como leer el periódico o ver televisión",
+  "¿Se ha movido o hablado tan despacio que otras personas podrían haberlo notado?",
+  "Pensamientos de que estaría mejor muerto/a, o de hacerse daño de alguna manera"
+];
+
+// ── Init ───────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function() {
+  // Fecha hoy en formato correcto para el campo date (YYYY-MM-DD)
+  var hoy = new Date();
+  var yyyy = hoy.getFullYear();
+  var mm   = String(hoy.getMonth() + 1).padStart(2, "0");
+  var dd   = String(hoy.getDate()).padStart(2, "0");
+  document.getElementById("fecha_aplicacion").value = yyyy + "-" + mm + "-" + dd;
+
+  // No. registro — solo muestra texto informativo, el folio real lo asigna Google Sheets
+  document.getElementById("no_registro").value = "Se asigna al guardar";
+
+  // Construir PHQ-9
+  buildPHQ9();
+
+  // Verificar si el URL está configurado
+  if (APPS_SCRIPT_URL === "URL_DE_TU_APPS_SCRIPT") {
+    document.getElementById("config-banner").style.display = "block";
+  }
+
+  // Escuchar radios
+  document.querySelectorAll(".radio-btn input[type=radio]").forEach(function(radio) {
+    radio.addEventListener("change", function() {
+      var groupName = this.name;
+      document.querySelectorAll(".radio-btn input[name='" + groupName + "']").forEach(function(r) {
+        r.closest(".radio-btn").classList.remove("selected");
+      });
+      this.closest(".radio-btn").classList.add("selected");
+    });
+  });
+});
+
+// ── Construir preguntas PHQ-9 dinámicamente ────────────────────────────────
+function buildPHQ9() {
+  var container = document.getElementById("phq9-questions");
+  PHQ9_QUESTIONS.forEach(function(q, i) {
+    var n = i + 1;
+    var fieldId = "phq9_p" + n;
+    phq9Values[fieldId] = "";
+
+    container.innerHTML += '<div class="phq-row">' +
+      '<div class="phq-question"><strong>' + n + '.</strong> ' + q + '</div>' +
+      '<div class="scale-group" id="' + fieldId + '-group">' +
+        '<div class="scale-btn" onclick="setScale(\'' + fieldId + '\',0,this)"><span class="scale-num">0</span>Nunca</div>' +
+        '<div class="scale-btn" onclick="setScale(\'' + fieldId + '\',1,this)"><span class="scale-num">1</span>Varios días</div>' +
+        '<div class="scale-btn" onclick="setScale(\'' + fieldId + '\',2,this)"><span class="scale-num">2</span>Más de la mitad</div>' +
+        '<div class="scale-btn" onclick="setScale(\'' + fieldId + '\',3,this)"><span class="scale-num">3</span>Casi todos los días</div>' +
+      '</div>' +
+      '<input type="hidden" id="' + fieldId + '" value="">' +
+    '</div>';
+  });
+}
+
+// ── Navegación por pasos ───────────────────────────────────────────────────
+function goStep(target) {
+  // Ocultar paso actual
+  document.getElementById("step-" + currentStep).classList.remove("active");
+
+  // Actualizar barra de pasos
+  updateStepsBar(target);
+
+  // Mostrar nuevo paso
+  currentStep = target;
+  document.getElementById("step-" + currentStep).classList.add("active");
+
+  // Si es paso de revisión, construir resumen
+  if (currentStep === 4) buildReview();
+
+  // Scroll al tope
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function updateStepsBar(target) {
+  for (var i = 0; i < totalSteps; i++) {
+    var stepEl = document.querySelector("[data-step='" + i + "']");
+    stepEl.classList.remove("active", "done");
+    if (i < target)  stepEl.classList.add("done");
+    if (i === target) stepEl.classList.add("active");
+
+    if (i < totalSteps - 1) {
+      var conn = document.getElementById("conn-" + i);
+      if (conn) conn.classList.toggle("done", i < target);
+    }
+  }
+}
+
+// ── Cálculo de edad ────────────────────────────────────────────────────────
+// ── Sexo: mostrar campo "Otro" ─────────────────────────────────────────────
+function toggleOtroSexo(mostrar) {
+  var wrap = document.getElementById("otro-sexo-wrap");
+  var input = document.getElementById("otro_sexo");
+  if (mostrar) {
+    wrap.style.display = "block";
+    input.focus();
+    document.getElementById("sexo_final").value = "";
+  } else {
+    wrap.style.display = "none";
+    input.value = "";
+    // El valor lo toma directo del radio seleccionado
+  }
+}
+
+function actualizarSexoOtro(valor) {
+  document.getElementById("sexo_final").value = valor ? "Otro: " + valor : "";
+}
+
+function calcEdad() {
+  var fn = document.getElementById("fecha_nacimiento").value;
+  if (!fn) return;
+  var hoy = new Date();
+  var nac = new Date(fn);
+  var edad = hoy.getFullYear() - nac.getFullYear();
+  var m = hoy.getMonth() - nac.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+  document.getElementById("edad").value = edad > 0 ? edad : "";
+}
+
+// ── Cálculo IMC ────────────────────────────────────────────────────────────
+function calcIMC() {
+  var peso  = parseFloat(document.getElementById("peso").value);
+  var talla = parseFloat(document.getElementById("talla").value);
+  if (!peso || !talla || talla <= 0) return;
+
+  var imc = peso / (talla * talla);
+  var imcStr = imc.toFixed(1);
+
+  var clasif = "", badgeClass = "";
+  if      (imc < 18.5) { clasif = "Bajo peso";        badgeClass = "badge-bajo"; }
+  else if (imc < 25)   { clasif = "Normal";            badgeClass = "badge-normal"; }
+  else if (imc < 30)   { clasif = "Sobrepeso";         badgeClass = "badge-sobrepeso"; }
+  else if (imc < 35)   { clasif = "Obesidad I";        badgeClass = "badge-obesidad"; }
+  else if (imc < 40)   { clasif = "Obesidad II";       badgeClass = "badge-obesidad"; }
+  else                  { clasif = "Obesidad III";      badgeClass = "badge-obesidad"; }
+
+  document.getElementById("imc").value = imcStr;
+  document.getElementById("clasificacion_imc").value = clasif;
+  document.getElementById("imc-display").innerHTML = imcStr + ' <span class="calc-badge ' + badgeClass + '">' + clasif + '</span>';
+  document.getElementById("imc-clasif-display").innerHTML = '<span class="calc-badge ' + badgeClass + '">' + clasif + '</span>';
+}
+
+// ── Cálculo ICC ────────────────────────────────────────────────────────────
+function calcICC() {
+  var cintura = parseFloat(document.getElementById("cintura").value);
+  var cadera  = parseFloat(document.getElementById("cadera").value);
+  if (!cintura || !cadera || cadera <= 0) return;
+
+  var icc    = cintura / cadera;
+  var iccStr = icc.toFixed(2);
+
+  var sexo = document.querySelector("input[name='sexo']:checked");
+  var sexoVal = sexo ? sexo.value : "Mujer";
+  var esHombre = sexoVal === "Hombre";
+
+  var clasif = "", badgeClass = "";
+  if (esHombre) {
+    if      (icc < 0.90) { clasif = "Riesgo bajo";  badgeClass = "badge-normal"; }
+    else if (icc < 0.95) { clasif = "Riesgo moderado"; badgeClass = "badge-riesgo"; }
+    else                  { clasif = "Riesgo alto";  badgeClass = "badge-obesidad"; }
+  } else {
+    if      (icc < 0.80) { clasif = "Riesgo bajo";  badgeClass = "badge-normal"; }
+    else if (icc < 0.85) { clasif = "Riesgo moderado"; badgeClass = "badge-riesgo"; }
+    else                  { clasif = "Riesgo alto";  badgeClass = "badge-obesidad"; }
+  }
+
+  document.getElementById("icc").value = iccStr;
+  document.getElementById("clasificacion_icc").value = clasif;
+  document.getElementById("icc-display").innerHTML = iccStr + ' <span class="calc-badge ' + badgeClass + '">' + clasif + '</span>';
+  document.getElementById("icc-clasif-display").innerHTML = '<span class="calc-badge ' + badgeClass + '">' + clasif + '</span>';
+}
+
+// ── Escala PHQ ─────────────────────────────────────────────────────────────
+function setScale(fieldId, value, el) {
+  // Deseleccionar todos en el grupo
+  var group = document.getElementById(fieldId + "-group");
+  group.querySelectorAll(".scale-btn").forEach(function(b) { b.classList.remove("selected"); });
+  el.classList.add("selected");
+
+  document.getElementById(fieldId).value = value;
+
+  // Si es PHQ-2, recalcular
+  if (fieldId === "phq2_p1" || fieldId === "phq2_p2") calcPHQ2();
+  // Si es PHQ-9, recalcular
+  if (fieldId.startsWith("phq9_")) calcPHQ9();
+}
+
+function calcPHQ2() {
+  var p1 = document.getElementById("phq2_p1").value;
+  var p2 = document.getElementById("phq2_p2").value;
+  if (p1 === "" || p2 === "") return;
+
+  var score = parseInt(p1) + parseInt(p2);
+  document.getElementById("phq2-score-display").textContent = score;
+  document.getElementById("puntaje_phq2").value = score;
+
+  // Mostrar PHQ-9 si score >= 3
+  var phq9Sec = document.getElementById("phq9-section");
+  if (score >= 3) phq9Sec.classList.add("show");
+  else            phq9Sec.classList.remove("show");
+}
+
+function calcPHQ9() {
+  var total = 0;
+  var allAnswered = true;
+  for (var i = 1; i <= 9; i++) {
+    var v = document.getElementById("phq9_p" + i).value;
+    if (v === "") { allAnswered = false; break; }
+    total += parseInt(v);
+  }
+  if (!allAnswered) return;
+
+  document.getElementById("phq9-score-display").textContent = total;
+  document.getElementById("puntaje_phq9").value = total;
+
+  var clasif = "";
+  if      (total <= 4)  clasif = "Mínimo";
+  else if (total <= 9)  clasif = "Leve";
+  else if (total <= 14) clasif = "Moderado";
+  else if (total <= 19) clasif = "Moderadamente grave";
+  else                  clasif = "Grave";
+
+  document.getElementById("phq9-clasif-display").textContent = "— " + clasif;
+  document.getElementById("clasificacion_phq9").value = clasif;
+}
+
+// ── Resumen de revisión ────────────────────────────────────────────────────
+function buildReview() {
+  function v(id) {
+    var el = document.getElementById(id);
+    if (!el) return "—";
+    if (el.tagName === "SELECT") return el.value || "—";
+    return el.value || "—";
+  }
+  function r(name) {
+    var el = document.querySelector("input[name='" + name + "']:checked");
+    return el ? el.value : "—";
+  }
+
+  var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">';
+
+  html += reviewSection("Identificación", [
+    ["Nombre", v("nombre_completo")],
+    ["Municipio", v("municipio")],
+    ["Localidad", v("localidad")],
+    ["Fecha nacimiento", v("fecha_nacimiento")],
+    ["Edad", v("edad") + " años"],
+    ["Sexo", r("sexo")],
+    ["Estado civil", v("estado_civil")],
+    ["Escolaridad", v("escolaridad")]
+  ]);
+
+  html += reviewSection("Antropometría", [
+    ["Peso", v("peso") + " kg"],
+    ["Talla", v("talla") + " m"],
+    ["IMC", v("imc") + " — " + v("clasificacion_imc")],
+    ["Cintura", v("cintura") + " cm"],
+    ["Cadera", v("cadera") + " cm"],
+    ["ICC", v("icc") + " — " + v("clasificacion_icc")]
+  ]);
+
+  html += reviewSection("Hábitos", [
+    ["Actividad física", r("actividad_fisica")],
+    ["Frecuencia", r("frecuencia_actividad")],
+    ["Tabaco", r("consume_tabaco")],
+    ["Alcohol", r("consume_alcohol")]
+  ]);
+
+  var phq2Score = v("puntaje_phq2");
+  var phq9Score = v("puntaje_phq9");
+  html += reviewSection("Salud Mental", [
+    ["PHQ-2", phq2Score !== "—" ? phq2Score + " pts" : "—"],
+    ["PHQ-9", phq9Score !== "—" ? phq9Score + " pts (" + v("clasificacion_phq9") + ")" : "No aplica"]
+  ]);
+
+  html += "</div>";
+  document.getElementById("review-content").innerHTML = html;
+}
+
+function reviewSection(title, rows) {
+  var html = '<div style="background:var(--beige-light);border-radius:8px;padding:16px;border:1px solid #e0dbc8;">';
+  html += '<div style="font-size:11px;font-weight:700;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">' + title + '</div>';
+  rows.forEach(function(row) {
+    html += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #ece8d8;font-size:12px;">' +
+      '<span style="color:#888;">' + row[0] + '</span>' +
+      '<span style="font-weight:600;color:var(--gris);">' + row[1] + '</span>' +
+    '</div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+// ── Envío del formulario ───────────────────────────────────────────────────
+function submitForm() {
+  if (APPS_SCRIPT_URL === "URL_DE_TU_APPS_SCRIPT") {
+    showToast("Configura la URL de Apps Script primero (ver instrucciones)");
+    return;
+  }
+
+  function v(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || "") : "";
+  }
+  function r(name) {
+    var el = document.querySelector("input[name='" + name + "']:checked");
+    return el ? el.value : "";
+  }
+
+  var payload = {
+    capturista:              v("capturista"),
+    no_registro:             v("no_registro"),
+    fecha_aplicacion:        v("fecha_aplicacion"),
+    id_encuestado:           v("id_encuestado"),
+    nombre_completo:         v("nombre_completo"),
+    municipio:               v("municipio"),
+    localidad:               v("localidad"),
+    direccion:               v("direccion"),
+    telefono:                v("telefono"),
+    fecha_nacimiento:        v("fecha_nacimiento"),
+    edad:                    v("edad"),
+    sexo:                    (function(){
+      var sel = document.querySelector("input[name='sexo']:checked");
+      if (!sel) return "";
+      if (sel.value === "Otro") {
+        var esp = document.getElementById("otro_sexo").value.trim();
+        return esp ? "Otro: " + esp : "Otro";
+      }
+      return sel.value;
+    })(),
+    estado_civil:            v("estado_civil"),
+    escolaridad:             v("escolaridad"),
+    ocupacion:               v("ocupacion"),
+    seguridad_social:        v("seguridad_social"),
+    peso:                    v("peso"),
+    talla:                   v("talla"),
+    imc:                     v("imc"),
+    clasificacion_imc:       v("clasificacion_imc"),
+    cintura:                 v("cintura"),
+    cadera:                  v("cadera"),
+    icc:                     v("icc"),
+    clasificacion_icc:       v("clasificacion_icc"),
+    presion_sistolica:       v("presion_sistolica"),
+    presion_diastolica:      v("presion_diastolica"),
+    glucosa:                 v("glucosa"),
+    actividad_fisica:        r("actividad_fisica"),
+    frecuencia_actividad:    r("frecuencia_actividad"),
+    consume_tabaco:          r("consume_tabaco"),
+    cigarros_dia:            v("cigarros_dia"),
+    consume_alcohol:         r("consume_alcohol"),
+    frecuencia_alcohol:      r("frecuencia_alcohol"),
+    consume_frutas_verduras: r("consume_frutas_verduras"),
+    consume_agua_simple:     r("consume_agua_simple"),
+    consume_comida_chatarra: r("consume_comida_chatarra"),
+    consume_bebidas_azucaradas: r("consume_bebidas_azucaradas"),
+    phq2_p1:                 v("phq2_p1"),
+    phq2_p2:                 v("phq2_p2"),
+    puntaje_phq2:            v("puntaje_phq2"),
+    phq9_p1:                 v("phq9_p1"),
+    phq9_p2:                 v("phq9_p2"),
+    phq9_p3:                 v("phq9_p3"),
+    phq9_p4:                 v("phq9_p4"),
+    phq9_p5:                 v("phq9_p5"),
+    phq9_p6:                 v("phq9_p6"),
+    phq9_p7:                 v("phq9_p7"),
+    phq9_p8:                 v("phq9_p8"),
+    phq9_p9:                 v("phq9_p9"),
+    puntaje_phq9:            v("puntaje_phq9"),
+    clasificacion_phq9:      v("clasificacion_phq9"),
+    observaciones:           v("observaciones")
+  };
+
+  // Validación básica
+  if (!payload.nombre_completo || !payload.municipio || !payload.fecha_aplicacion) {
+    showToast("Completa los campos obligatorios antes de enviar");
+    goStep(0);
+    return;
+  }
+
+  // Mostrar spinner
+  var btn = document.getElementById("btn-submit");
+  btn.disabled = true;
+  document.getElementById("btn-text").textContent = "Guardando...";
+  document.getElementById("btn-spinner").style.display = "inline-block";
+
+  fetch(APPS_SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      showSuccess(data.folio);
+    } else {
+      throw new Error(data.error || "Error desconocido");
+    }
+  })
+  .catch(function(err) {
+    showToast("Error al guardar: " + err.message);
+    btn.disabled = false;
+    document.getElementById("btn-text").textContent = "Guardar en Google Sheets";
+    document.getElementById("btn-spinner").style.display = "none";
+  });
+}
+
+// ── Mostrar éxito ──────────────────────────────────────────────────────────
+function showSuccess(folio) {
+  document.getElementById("step-4").classList.remove("active");
+  document.querySelector(".steps-bar").style.display = "none";
+
+  var successEl = document.getElementById("success-screen");
+  successEl.style.display = "block";
+  successEl.classList.add("active");
+
+  // Mostrar folio real asignado por Google Sheets (ej: CUSCO-2026-0001)
+  var folioTexto = folio || "Guardado correctamente";
+  document.getElementById("success-folio").textContent = folioTexto;
+}
+
+// ── Reset ──────────────────────────────────────────────────────────────────
+function resetForm() {
+  location.reload();
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(function() { t.style.display = "none"; }, 4000);
+}
+</script>
+</body>
+</html>
