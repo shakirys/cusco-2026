@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUSCO 2026 — Captura Offline v3.2</title>
+<style>
+:root{--vino:#611232;--vino-dark:#4a0d25;--verde:#002f2a;--verde-med:#004a42;--dorado:#a57f2c;--beige:#e6d194;--beige-light:#f8f5ec;--gris:#4d4d4d;--gris-light:#f0ece0;--border:#d8d4c4;--white:#fff;--radius:8px;--shadow:0 2px 12px rgba(0,47,42,.10)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--beige-light);color:var(--gris);min-height:100vh}.site-header{background:var(--verde);padding:0 24px;min-height:62px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.2);position:sticky;top:0;z-index:100;gap:12px}.header-brand{display:flex;align-items:center;gap:12px}.brand-box{width:38px;height:38px;background:var(--vino);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--beige)}.brand-name{color:var(--beige);font-size:16px;font-weight:700}.brand-sub{color:var(--dorado);font-size:10px;letter-spacing:2px;text-transform:uppercase}.header-badge{background:rgba(165,127,44,.15);border:1px solid rgba(165,127,44,.4);color:var(--beige);font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}.page-wrap{max-width:900px;margin:24px auto;padding:0 16px 60px}.page-title{text-align:center;margin-bottom:20px}.page-title h1{font-size:24px;color:var(--verde);font-weight:800;margin-bottom:6px}.page-title p{font-size:14px;color:#777}.status-panel{background:#fff;border:1px solid #e0dbc8;border-radius:10px;box-shadow:var(--shadow);padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.status-badge{font-size:12px;font-weight:800;padding:5px 10px;border-radius:20px}.online{background:#d4edda;color:#155724}.offline{background:#fff3cd;color:#856404}.pending{font-size:13px;color:#666}.steps-bar{display:flex;align-items:center;justify-content:center;margin-bottom:24px;gap:0;overflow-x:auto;padding:4px 0}.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}.step-circle{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#aaa}.step-label{font-size:10px;color:#aaa;white-space:nowrap;font-weight:500}.step-item.active .step-circle{background:var(--vino);border-color:var(--vino);color:white}.step-item.active .step-label{color:var(--vino)}.step-item.done .step-circle{background:var(--verde);border-color:var(--verde);color:white}.step-item.done .step-label{color:var(--verde)}.step-connector{width:34px;height:2px;background:var(--border);flex-shrink:0;margin-bottom:22px}.step-connector.done{background:var(--verde)}.form-card{background:white;border-radius:12px;border:1px solid #e0dbc8;box-shadow:var(--shadow);overflow:hidden;display:none}.form-card.active{display:block}.card-header{background:var(--verde);padding:16px 24px;display:flex;align-items:center;gap:14px}.card-header-num{width:30px;height:30px;border-radius:50%;background:var(--vino);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}.card-header-title{color:white;font-size:15px;font-weight:700}.card-header-sub{color:var(--beige);font-size:12px;opacity:.9}.card-body{padding:24px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field-full{grid-column:1/-1}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:.4px;line-height:1.4}.req{color:var(--vino)}.field input,.field select,.field textarea{padding:10px 13px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;color:var(--gris);background:white;font-family:inherit;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vino);box-shadow:0 0 0 3px rgba(97,18,50,.08)}.field input[readonly]{background:var(--beige-light);color:var(--verde);font-weight:700}.field textarea{resize:vertical;min-height:80px}.section-divider{grid-column:1/-1;font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;padding:14px 0 6px;border-bottom:1.5px solid var(--beige);margin-bottom:4px}.radio-group,.check-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}.choice-btn{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:13px;transition:.15s;user-select:none;line-height:1.35}.choice-btn input{display:none}.choice-btn:hover{border-color:var(--vino);background:#fdf8f9}.choice-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.question-block{grid-column:1/-1;padding:16px;border:1px solid #ece8d8;background:#fffdf8;border-radius:10px}.question-title{font-size:14px;line-height:1.45;color:var(--gris);margin-bottom:10px}.question-num{font-weight:800;color:var(--vino)}.calc-result{padding:10px 13px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:var(--radius);font-size:14px;font-weight:700;color:var(--verde);min-height:40px}.calc-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-left:8px}.badge-normal{background:#d4edda;color:#155724}.badge-sobrepeso,.badge-riesgo{background:#fff3cd;color:#856404}.badge-obesidad,.badge-alto{background:#f8d7da;color:#721c24}.badge-bajo{background:#cce5ff;color:#004085}.scale-group{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}.scale-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;text-align:center;transition:.15s;line-height:1.3}.scale-btn:hover{border-color:var(--vino)}.scale-btn.selected{border-color:var(--vino);background:var(--vino);color:white}.scale-num{font-size:16px;font-weight:800}.phq9-section{display:none;margin-top:20px;padding:18px;background:#fff8f0;border:1.5px solid #ffd5a0;border-radius:10px}.phq9-section.show{display:block}.phq9-alert{padding:10px 14px;background:#fff3cd;border-radius:6px;font-size:13px;font-weight:600;color:#856404;margin-bottom:16px}.phq-row{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0ece0}.phq-question{font-size:13px;color:var(--gris);margin-bottom:8px;line-height:1.4}.nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:20px;border-top:1px solid var(--gris-light);gap:10px}.btn{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:.15s;font-family:inherit;text-decoration:none}.btn-prev{background:transparent;border:1.5px solid var(--border);color:var(--gris)}.btn-next{background:var(--verde);color:white}.btn-submit,.btn-sync{background:var(--vino);color:white}.btn-small{padding:8px 12px;font-size:12px}.btn:disabled{opacity:.6;cursor:not-allowed}#success-screen{display:none;text-align:center}.success-icon{width:70px;height:70px;background:var(--verde);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:34px;color:white}.success-title{font-size:23px;font-weight:800;color:var(--verde);margin-bottom:8px}.success-folio{display:inline-block;padding:8px 20px;background:var(--beige-light);border:1.5px solid var(--beige);border-radius:6px;font-size:16px;font-weight:800;color:var(--vino);margin:14px 0}.success-sub{font-size:14px;color:#777;margin-bottom:24px}#toast{position:fixed;bottom:24px;right:24px;background:var(--vino);color:white;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);display:none;z-index:999;max-width:360px}.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.review-card{background:var(--beige-light);border-radius:8px;padding:14px;border:1px solid #e0dbc8}.review-card h3{font-size:11px;font-weight:800;color:var(--dorado);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}.review-row{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid #ece8d8;font-size:12px}.review-row span:first-child{color:#888}.review-row span:last-child{font-weight:600;text-align:right}.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}@keyframes spin{to{transform:rotate(360deg)}}@media(max-width:650px){.field-grid,.review-grid{grid-template-columns:1fr}.field-full{grid-column:1}.scale-group{grid-template-columns:repeat(2,1fr)}.card-body{padding:18px}.steps-bar{justify-content:flex-start}.site-header{padding:8px 14px}.header-badge{display:none}.nav-btns{flex-direction:column}.btn{width:100%;justify-content:center}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><span class="header-badge">CUSCO 2026 · Offline v3.2</span></header>
+<div class="page-wrap">
+<div class="page-title"><h1>Cuestionario de Salud Comunitario (CUSCO) 2026</h1><p>Captura con o sin internet. Los registros pendientes se sincronizan cuando haya conexión.</p></div>
+<div class="status-panel"><div><span id="net-status" class="status-badge">Verificando conexión...</span> <span class="pending" id="pending-text">Pendientes: 0</span></div><button class="btn btn-sync btn-small" onclick="syncPending()">Sincronizar pendientes</button></div>
+<div class="steps-bar" id="steps-bar"></div>
+
+<div class="form-card active" id="step-0"><div class="card-header"><div class="card-header-num">1</div><div><div class="card-header-title">Datos de Identificación</div><div class="card-header-sub">Información general del cuestionario</div></div></div><div class="card-body"><div class="field-grid">
+<div class="field"><label>No.</label><input type="text" id="no_registro" readonly></div>
+<div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="fecha" required></div>
+<div class="field"><label>ID</label><input type="text" id="id_encuestado" placeholder="ID/CURP/identificador"></div>
+<div class="field"><label>Nombre y clave del aplicador <span class="req">*</span></label><input type="text" id="aplicador" required></div>
+<div class="field field-full"><label>Nombre <span class="req">*</span></label><input type="text" id="nombre" required></div>
+<div class="field"><label>Localidad <span class="req">*</span></label><input type="text" id="localidad" required></div>
+<div class="field"><label>Municipio <span class="req">*</span></label><select id="municipio" required><option value="">— Selecciona municipio —</option><option>Amealco de Bonfil</option><option>Arroyo Seco</option><option>Cadereyta de Montes</option><option>Colón</option><option>Corregidora</option><option>El Marqués</option><option>Ezequiel Montes</option><option>Huimilpan</option><option>Jalpan de Serra</option><option>Landa de Matamoros</option><option>Pedro Escobedo</option><option>Peñamiller</option><option>Pinal de Amoles</option><option>Querétaro</option><option>San Joaquín</option><option>San Juan del Río</option><option>Tequisquiapan</option><option>Tolimán</option></select></div>
+<div class="field"><label>Contacto (teléfono)</label><input type="tel" id="telefono" placeholder="10 dígitos"></div>
+<div class="field"><label>Dirección</label><input type="text" id="direccion"></div>
+<div class="section-divider">Datos personales</div>
+<div class="field"><label>1. Edad <span class="req">*</span></label><input type="number" id="edad" min="0" max="120" required></div>
+<div class="field field-full"><label>2. Sexo <span class="req">*</span></label><div class="radio-group" data-name="sexo"><label class="choice-btn"><input type="radio" name="sexo" value="Hombre">Hombre</label><label class="choice-btn"><input type="radio" name="sexo" value="Mujer">Mujer</label><label class="choice-btn"><input type="radio" name="sexo" value="Intersexual">Intersexual</label></div></div>
+<div class="field field-full"><label>3. Estado civil</label><div class="radio-group" data-name="estado_civil"><label class="choice-btn"><input type="radio" name="estado_civil" value="soltero">soltero</label><label class="choice-btn"><input type="radio" name="estado_civil" value="casado">casado</label><label class="choice-btn"><input type="radio" name="estado_civil" value="unión libre">unión libre</label><label class="choice-btn"><input type="radio" name="estado_civil" value="divorciado">divorciado</label><label class="choice-btn"><input type="radio" name="estado_civil" value="viudo">viudo</label><label class="choice-btn"><input type="radio" name="estado_civil" value="separado">separado</label></div></div>
+<div class="field field-full"><label>4. Pertenece a alguno de los siguientes grupos: Indígena / situación de calle / LGBT / discapacidad / migrante / ninguno / Otro</label><div class="check-group"><label class="choice-btn"><input type="checkbox" name="grupo" value="Indígena">Indígena</label><label class="choice-btn"><input type="checkbox" name="grupo" value="situación de calle">situación de calle</label><label class="choice-btn"><input type="checkbox" name="grupo" value="LGBT">LGBT</label><label class="choice-btn"><input type="checkbox" name="grupo" value="discapacidad">discapacidad</label><label class="choice-btn"><input type="checkbox" name="grupo" value="migrante">migrante</label><label class="choice-btn"><input type="checkbox" name="grupo" value="ninguno">ninguno</label></div><input type="text" id="grupo_otro" placeholder="Otro: ___________" style="margin-top:8px"></div>
+<div class="field field-full"><label>5. Seguridad social: IMSS / ISSSTE / SSA / BIENESTAR / SEMAR / PEMEX / privado / ninguno. Otro</label><div class="check-group"><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="IMSS">IMSS</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="ISSSTE">ISSSTE</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="SSA">SSA</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="BIENESTAR">BIENESTAR</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="SEMAR">SEMAR</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="PEMEX">PEMEX</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="privado">privado</label><label class="choice-btn"><input type="checkbox" name="seguridad_social" value="ninguno">ninguno</label></div><input type="text" id="seguridad_social_otro" placeholder="Otro _____" style="margin-top:8px"></div>
+<div class="field field-full"><label>6. Ocupación</label><select id="ocupacion"><option value="">— Selecciona —</option><option>Agricultor / trabajo en el campo</option><option>Ganadero</option><option>Comerciante</option><option>Empleado (empresa, negocio, institución)</option><option>Trabajador independiente / oficio (albañil, carpintero, mecánico)</option><option>Empleado de gobierno / SP</option><option>Ama de casa</option><option>Estudiante</option><option>Desempleado</option><option>Jubilado / pensionado</option><option>Migrante</option><option>Otros</option></select></div>
+<div class="field"><label>7. Años de estudio</label><input type="number" id="anios_estudio" min="0" max="40" step="1"></div>
+</div><div class="nav-btns"><span></span><button class="btn btn-next" onclick="goStep(1)">Siguiente → Salud física</button></div></div></div>
+
+<div class="form-card" id="step-1"><div class="card-header"><div class="card-header-num">2</div><div><div class="card-header-title">Salud física y hábitos saludables</div><div class="card-header-sub">Este apartado es para conocer un poco sobre sus hábitos: consumo de alimentos, bebidas y actividad física que realiza.</div></div></div><div class="card-body"><div class="field-grid">
+<div class="question-block"><div class="question-title"><span class="question-num">8.</span> ¿Con qué frecuencia consume alimentos que no son caseros y suelen tener mucha grasa, azúcar o sal? Por ejemplo: frituras, comida de puestos callejeros, pan dulce industrial, sopas instantáneas.</div><div class="radio-group"><label class="choice-btn"><input type="radio" name="p8_alimentos_no_caseros" value="Nunca">Nunca</label><label class="choice-btn"><input type="radio" name="p8_alimentos_no_caseros" value="Rara Vez">Rara Vez</label><label class="choice-btn"><input type="radio" name="p8_alimentos_no_caseros" value="Casi siempre">Casi siempre</label><label class="choice-btn"><input type="radio" name="p8_alimentos_no_caseros" value="Siempre">Siempre</label></div></div>
+<div class="question-block"><div class="question-title"><span class="question-num">9.</span> ¿Con qué frecuencia consume bebidas azucaradas? (refrescos, jugos industrializados, bebidas energéticas)</div><div class="radio-group"><label class="choice-btn"><input type="radio" name="p9_bebidas_azucaradas" value="Nunca">Nunca</label><label class="choice-btn"><input type="radio" name="p9_bebidas_azucaradas" value="Rara vez">Rara vez</label><label class="choice-btn"><input type="radio" name="p9_bebidas_azucaradas" value="Casi siempre">Casi siempre</label><label class="choice-btn"><input type="radio" name="p9_bebidas_azucaradas" value="Siempre">Siempre</label></div></div>
+<div class="question-block"><div class="question-title"><span class="question-num">10.</span> ¿Con qué frecuencia bebe al menos 8 vasos de agua natural o agua simple al día?</div><div class="radio-group"><label class="choice-btn"><input type="radio" name="p10_agua" value="Nunca">Nunca</label><label class="choice-btn"><input type="radio" name="p10_agua" value="Rara Vez">Rara Vez</label><label class="choice-btn"><input type="radio" name="p10_agua" value="Casi Siempre">Casi Siempre</label><label class="choice-btn"><input type="radio" name="p10_agua" value="Siempre">Siempre</label></div></div>
+<div class="question-block"><div class="question-title"><span class="question-num">11.</span> ¿Con qué frecuencia realizas actividad física moderada o intensa (caminar, correr, nadar, bailar) por más de 30 minutos?</div><div class="radio-group"><label class="choice-btn"><input type="radio" name="p11_actividad_fisica" value="Nunca">Nunca</label><label class="choice-btn"><input type="radio" name="p11_actividad_fisica" value="Rara Vez">Rara Vez</label><label class="choice-btn"><input type="radio" name="p11_actividad_fisica" value="Casi Siempre">Casi Siempre</label><label class="choice-btn"><input type="radio" name="p11_actividad_fisica" value="Siempre">Siempre</label></div></div>
+<div class="question-block"><div class="question-title"><span class="question-num">12.</span> ¿Conoce el etiquetado frontal de advertencia en alimentos y bebidas envasados? (los sellos octogonales negros que indican exceso en azúcares, grasas saturadas, exceso de sodio y exceso de calorías)</div><div class="radio-group"><label class="choice-btn"><input type="radio" name="p12_etiquetado" value="Si, lo conozco y esto influye en mis decisiones de compra">Si, lo conozco y esto influye en mis decisiones de compra</label><label class="choice-btn"><input type="radio" name="p12_etiquetado" value="Si, lo conozco, pero no influye en mis decisiones de compra">Si, lo conozco, pero no influye en mis decisiones de compra</label><label class="choice-btn"><input type="radio" name="p12_etiquetado" value="Lo he visto, pero no sé qué significa.">Lo he visto, pero no sé qué significa.</label><label class="choice-btn"><input type="radio" name="p12_etiquetado" value="No estoy seguro.">No estoy seguro.</label><label class="choice-btn"><input type="radio" name="p12_etiquetado" value="No, no lo conozco">No, no lo conozco</label></div></div>
+</div><div class="nav-btns"><button class="btn btn-prev" onclick="goStep(0)">← Anterior</button><button class="btn btn-next" onclick="goStep(2)">Siguiente → Antropometría</button></div></div></div>
+
+<div class="form-card" id="step-2"><div class="card-header"><div class="card-header-num">3</div><div><div class="card-header-title">Antropometría</div><div class="card-header-sub">IMC e ICC se calculan automáticamente</div></div></div><div class="card-body"><div class="field-grid">
+<div class="field"><label>13. Peso (kg)</label><input type="number" id="peso" step="0.1" min="1" max="300" oninput="calcIMC()"></div><div class="field"><label>14. Talla (m)</label><input type="number" id="talla" step="0.01" min="0.5" max="2.5" oninput="calcIMC()"></div><div class="field"><label>IMC</label><div class="calc-result" id="imc-display">—</div><input type="hidden" id="imc"><input type="hidden" id="clasificacion_imc"></div><div class="field"><label>Clasificación IMC</label><div class="calc-result" id="imc-clasif-display">—</div></div><div class="field"><label>15. Circunferencia cintura (cm)</label><input type="number" id="cintura" step="0.1" oninput="calcICC()"></div><div class="field"><label>16. cadera (cm)</label><input type="number" id="cadera" step="0.1" oninput="calcICC()"></div><div class="field"><label>ICC</label><div class="calc-result" id="icc-display">—</div><input type="hidden" id="icc"><input type="hidden" id="clasificacion_icc"></div><div class="field"><label>Clasificación ICC</label><div class="calc-result" id="icc-clasif-display">—</div></div>
+</div><div class="nav-btns"><button class="btn btn-prev" onclick="goStep(1)">← Anterior</button><button class="btn btn-next" onclick="goStep(3)">Siguiente → Salud Mental</button></div></div></div>
+
+<div class="form-card" id="step-3"><div class="card-header"><div class="card-header-num">4</div><div><div class="card-header-title">Salud Mental</div><div class="card-header-sub">Ahora le voy a hacer algunas preguntas relacionadas a su salud mental.</div></div></div><div class="card-body">
+<p style="font-size:13px;color:#666;margin-bottom:8px;"><strong>PHQ 2</strong></p><p style="font-size:13px;color:#666;margin-bottom:20px;">Piense en las últimas dos semanas (14 días), ¿con qué frecuencia ha tenido los siguientes problemas?</p>
+<div class="phq-row"><div class="phq-question"><strong>17.</strong> Poco interés o placer en hacer cosas.</div><div class="scale-group" id="phq2_p17-group"><div class="scale-btn" onclick="setScale('phq2_p17',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale('phq2_p17',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale('phq2_p17',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale('phq2_p17',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="phq2_p17"></div>
+<div class="phq-row"><div class="phq-question"><strong>18.</strong> Sentirse triste, deprimido o sin esperanzas.</div><div class="scale-group" id="phq2_p18-group"><div class="scale-btn" onclick="setScale('phq2_p18',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale('phq2_p18',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale('phq2_p18',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale('phq2_p18',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="phq2_p18"></div>
+<div style="padding:12px 16px;background:var(--beige-light);border-radius:8px;margin:16px 0;"><span style="font-size:13px;font-weight:700;color:var(--verde);">Sumatoria pregunta 17 y 18 = </span><span id="phq2-score-display" style="font-size:18px;font-weight:800;color:var(--vino);">—</span><input type="hidden" id="puntaje_phq2"></div>
+<div class="phq9-section" id="phq9-section"><div class="phq9-alert">Referencia 3 o más puntos, aplicar el PHQ 9 (preguntas 19-25)</div><p style="font-size:13px;color:#666;margin-bottom:16px;"><strong>PHQ 9</strong></p><div id="phq9-questions"></div><div style="padding:12px 16px;background:var(--beige-light);border-radius:8px;margin-top:16px;"><span style="font-size:13px;font-weight:700;color:var(--verde);">Sumatoria: </span><span id="phq9-score-display" style="font-size:18px;font-weight:800;color:var(--vino);">—</span>&nbsp;<span id="phq9-clasif-display" style="font-size:13px;font-weight:700;"></span><input type="hidden" id="puntaje_phq9"><input type="hidden" id="clasificacion_phq9"></div><p style="font-size:12px;color:#666;margin-top:10px;">Sumatoria: 0-4 Ninguno; 5-9 Depresión leve; 10-14 Depresión moderada; 15-19 Depresión moderadamente grave; 20-27 Depresión grave.</p></div>
+<div class="nav-btns"><button class="btn btn-prev" onclick="goStep(2)">← Anterior</button><button class="btn btn-next" onclick="goStep(4)">Siguiente → Revisión</button></div></div></div>
+
+<div class="form-card" id="step-4"><div class="card-header"><div class="card-header-num">5</div><div><div class="card-header-title">Revisión y guardado</div><div class="card-header-sub">Verifica los datos antes de guardar</div></div></div><div class="card-body"><div id="review-content"></div><div class="field" style="margin-top:18px"><label>Observaciones generales</label><textarea id="observaciones" rows="3"></textarea></div><div class="nav-btns"><button class="btn btn-prev" onclick="goStep(3)">← Anterior</button><button class="btn btn-submit" id="btn-submit" onclick="submitForm()"><span id="btn-text">Guardar registro</span><div class="spinner" id="btn-spinner"></div></button></div></div></div>
+<div id="success-screen" class="form-card"><div class="card-body"><div style="text-align:center;padding:40px 20px"><div class="success-icon">✓</div><div class="success-title">¡Registro guardado!</div><div class="success-folio" id="success-folio">—</div><div class="success-sub" id="success-sub">El registro fue guardado.</div><button class="btn btn-submit" onclick="resetForm()">+ Capturar nuevo registro</button></div></div></div>
+</div><div id="toast"></div>
+<script>
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGuFM1h6TuYAm9-0oKwyDj3f_6D0v5AdRje18iWNPbFT5qPkQzYLxobNvyTfnt7eM-EA/exec";
+var currentStep=0,totalSteps=5,storageKey="CUSCO_2026_PENDIENTES";
+var PHQ9_QUESTIONS=[
+{n:19,t:"Dificultad para conciliar o mantener el sueño, o dormir demasiado."},
+{n:20,t:"Sentirse cansado o tener poca energía."},
+{n:21,t:"Mal apetito o comer en exceso."},
+{n:22,t:"Sentirse mal sobre sí mismo (que es un fracaso o se ha decepcionado a usted o a su familia)."},
+{n:23,t:"Dificultad para concentrarse en actividades, como leer algún libro o ver televisión."},
+{n:24,t:"Moverse o hablar tan despacio que otras personas pueden haberlo notado. O lo contrario, sentirse tan nervioso o inquieto que ha estado moviéndose más de lo usual."},
+{n:25,t:"Pensamientos de que estaría mejor muerto o de lastimarse usted mismo de alguna manera."}
+];
+document.addEventListener("DOMContentLoaded",function(){buildSteps();initDate();buildPHQ9();wireChoices();updateNetStatus();updatePendingText();window.addEventListener("online",function(){updateNetStatus();syncPending(true)});window.addEventListener("offline",updateNetStatus);document.getElementById("no_registro").value="CUSCO-LOCAL-"+Date.now();});
+function buildSteps(){var labels=["Identificación","Salud física","Antropometría","Salud Mental","Revisión"];var html="";labels.forEach(function(l,i){html+='<div class="step-item '+(i===0?'active':'')+'" data-step="'+i+'"><div class="step-circle">'+(i+1)+'</div><div class="step-label">'+l+'</div></div>';if(i<labels.length-1)html+='<div class="step-connector" id="conn-'+i+'"></div>';});document.getElementById("steps-bar").innerHTML=html;}
+function initDate(){var h=new Date();document.getElementById("fecha").value=h.getFullYear()+"-"+String(h.getMonth()+1).padStart(2,"0")+"-"+String(h.getDate()).padStart(2,"0");}
+function wireChoices(){document.querySelectorAll(".choice-btn input").forEach(function(inp){inp.addEventListener("change",function(){if(this.type==="radio"){document.querySelectorAll("input[name='"+this.name+"']").forEach(function(x){x.closest(".choice-btn").classList.remove("selected")});this.closest(".choice-btn").classList.add("selected");}else{this.closest(".choice-btn").classList.toggle("selected",this.checked);}});});}
+function buildPHQ9(){var c=document.getElementById("phq9-questions");PHQ9_QUESTIONS.forEach(function(q){var id="phq9_p"+q.n;c.innerHTML+='<div class="phq-row"><div class="phq-question"><strong>'+q.n+'.</strong> '+q.t+'</div><div class="scale-group" id="'+id+'-group"><div class="scale-btn" onclick="setScale(\''+id+'\',0,this)"><span class="scale-num">0</span>Nunca</div><div class="scale-btn" onclick="setScale(\''+id+'\',1,this)"><span class="scale-num">1</span>Varios días</div><div class="scale-btn" onclick="setScale(\''+id+'\',2,this)"><span class="scale-num">2</span>Más de la mitad de los días</div><div class="scale-btn" onclick="setScale(\''+id+'\',3,this)"><span class="scale-num">3</span>Casi todos los días</div></div><input type="hidden" id="'+id+'"></div>';});}
+function goStep(t){if(!validateStep(currentStep))return;document.getElementById("step-"+currentStep).classList.remove("active");currentStep=t;updateStepsBar(t);document.getElementById("step-"+currentStep).classList.add("active");if(currentStep===4)buildReview();window.scrollTo({top:0,behavior:"smooth"});}
+function updateStepsBar(t){for(var i=0;i<totalSteps;i++){var s=document.querySelector("[data-step='"+i+"']");s.classList.remove("active","done");if(i<t)s.classList.add("done");if(i===t)s.classList.add("active");var conn=document.getElementById("conn-"+i);if(conn)conn.classList.toggle("done",i<t);}}
+function validateStep(step){if(step===0){if(!v("fecha")||!v("aplicador")||!v("nombre")||!v("localidad")||!v("municipio")||!v("edad")||!r("sexo")){showToast("Completa los campos obligatorios de identificación");return false;}}return true;}
+function calcIMC(){var peso=parseFloat(v("peso")),talla=parseFloat(v("talla"));if(!peso||!talla||talla<=0)return;var imc=peso/(talla*talla),imcStr=imc.toFixed(1),clasif="",badge="";if(imc<18.5){clasif="Bajo peso";badge="badge-bajo"}else if(imc<25){clasif="Normal";badge="badge-normal"}else if(imc<30){clasif="Sobrepeso";badge="badge-sobrepeso"}else if(imc<35){clasif="Obesidad I";badge="badge-obesidad"}else if(imc<40){clasif="Obesidad II";badge="badge-obesidad"}else{clasif="Obesidad III";badge="badge-obesidad"}setv("imc",imcStr);setv("clasificacion_imc",clasif);document.getElementById("imc-display").innerHTML=imcStr+' <span class="calc-badge '+badge+'">'+clasif+'</span>';document.getElementById("imc-clasif-display").innerHTML='<span class="calc-badge '+badge+'">'+clasif+'</span>';}
+function calcICC(){var cintura=parseFloat(v("cintura")),cadera=parseFloat(v("cadera"));if(!cintura||!cadera||cadera<=0)return;var icc=cintura/cadera,iccStr=icc.toFixed(2);var sexo=r("sexo")||"Mujer",h=sexo==="Hombre",clasif="",badge="";if(h){if(icc<0.90){clasif="Riesgo bajo";badge="badge-normal"}else if(icc<0.95){clasif="Riesgo moderado";badge="badge-riesgo"}else{clasif="Riesgo alto";badge="badge-obesidad"}}else{if(icc<0.80){clasif="Riesgo bajo";badge="badge-normal"}else if(icc<0.85){clasif="Riesgo moderado";badge="badge-riesgo"}else{clasif="Riesgo alto";badge="badge-obesidad"}}setv("icc",iccStr);setv("clasificacion_icc",clasif);document.getElementById("icc-display").innerHTML=iccStr+' <span class="calc-badge '+badge+'">'+clasif+'</span>';document.getElementById("icc-clasif-display").innerHTML='<span class="calc-badge '+badge+'">'+clasif+'</span>';}
+function setScale(id,val,el){document.querySelectorAll("#"+id+"-group .scale-btn").forEach(function(b){b.classList.remove("selected")});el.classList.add("selected");setv(id,val);if(id==="phq2_p17"||id==="phq2_p18")calcPHQ2();if(id.indexOf("phq9_")===0)calcPHQ9();}
+function calcPHQ2(){if(v("phq2_p17")===""||v("phq2_p18")==="")return;var score=parseInt(v("phq2_p17"))+parseInt(v("phq2_p18"));setv("puntaje_phq2",score);document.getElementById("phq2-score-display").textContent=score;document.getElementById("phq9-section").classList.toggle("show",score>=3);}
+function calcPHQ9(){var total=0,all=true;PHQ9_QUESTIONS.forEach(function(q){var val=v("phq9_p"+q.n);if(val==="")all=false;else total+=parseInt(val);});if(!all)return;setv("puntaje_phq9",total);document.getElementById("phq9-score-display").textContent=total;var c="";if(total<=4)c="Ninguno";else if(total<=9)c="Depresión leve";else if(total<=14)c="Depresión moderada";else if(total<=19)c="Depresión moderadamente grave";else c="Depresión grave";setv("clasificacion_phq9",c);document.getElementById("phq9-clasif-display").textContent="— "+c;if(parseInt(v("phq9_p25")||0)>0)showToast("Atención: respuesta positiva en pregunta 25. Requiere referencia o valoración inmediata según protocolo.");}
+function v(id){var e=document.getElementById(id);return e?(e.value||""):""}function setv(id,val){var e=document.getElementById(id);if(e)e.value=val}function r(name){var e=document.querySelector("input[name='"+name+"']:checked");return e?e.value:""}function checks(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals.join(", ");}
+function normText(x){return (x||"").toString().trim();}
+function normLower(x){return normText(x).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function codeFromMap(value,map){var k=normLower(value);return map.hasOwnProperty(k)?map[k]:"";}
+function selectedValues(name,otherId){var vals=[];document.querySelectorAll("input[name='"+name+"']:checked").forEach(function(e){vals.push(e.value)});var o=otherId?v(otherId).trim():"";if(o)vals.push("Otro: "+o);return vals;}
+function joinVals(arr){return arr.join(" | ");}
+function groupCodes(vals){var map={"indigena":1,"situacion de calle":2,"lgbt":3,"discapacidad":4,"migrante":5,"ninguno":6};return vals.map(function(x){return normLower(x).indexOf("otro:")===0?7:(map[normLower(x)]||"");}).filter(function(x){return x!==""}).join("|");}
+function seguridadCodes(vals){var map={"imss":1,"issste":2,"ssa":3,"bienestar":4,"imss bienestar":4,"semar":5,"pemex":6,"privado":7,"ninguno":8};return vals.map(function(x){return normLower(x).indexOf("otro:")===0?9:(map[normLower(x)]||"");}).filter(function(x){return x!==""}).join("|");}
+function codigoUnico(valor,mapa){
+  if(!valor)return "";
+  var k=String(valor).trim();
+  return mapa[k]!==undefined ? mapa[k] : "";
+}
+function codigoMultiple(texto,mapa){
+  if(!texto)return "";
+  return String(texto).split(",").map(function(x){return x.trim();}).filter(Boolean).map(function(x){
+    if(x.indexOf("Otro:")===0)return mapa["Otro"];
+    return mapa[x]!==undefined ? mapa[x] : "";
+  }).filter(function(x){return x!=="" && x!==undefined;}).join("|");
+}
+function normalizaFrecuencia(valor){
+  var mapa={"Nunca":0,"Rara vez":1,"Rara Vez":1,"Casi siempre":2,"Casi Siempre":2,"Siempre":3};
+  return codigoUnico(valor,mapa);
+}
+function normalizaEtiquetado(valor){
+  var mapa={
+    "Si, lo conozco y esto influye en mis decisiones de compra":0,
+    "Sí, lo conozco y esto influye en mis decisiones de compra":0,
+    "Si, lo conozco, pero no influye en mis decisiones de compra":1,
+    "Sí, lo conozco, pero no influye en mis decisiones de compra":1,
+    "Lo he visto, pero no sé qué significa.":2,
+    "No estoy seguro.":3,
+    "No, no lo conozco":4
+  };
+  return codigoUnico(valor,mapa);
+}
+function normalizaEstadoCivil(valor){
+  var mapa={"soltero":1,"Soltero":1,"casado":2,"Casado":2,"unión libre":3,"Unión libre":3,"divorciado":4,"Divorciado":4,"viudo":5,"Viudo":5,"separado":6,"Separado":6};
+  return codigoUnico(valor,mapa);
+}
+function normalizaSexo(valor){
+  var mapa={"Hombre":0,"Mujer":1};
+  return codigoUnico(valor,mapa);
+}
+function normalizaOcupacion(valor){
+  var mapa={
+    "agricultor":1,"Agricultor / trabajo en el campo":1,
+    "ganadero":2,"Ganadero":2,
+    "comerciante":3,"Comerciante":3,
+    "empleado formal":4,"Empleado (empresa, negocio, institución)":4,
+    "trabajador independiente":5,"Trabajador independiente / oficio (albañil, carpintero, mecánico)":5,
+    "empleado de gobierno":6,"Empleado de gobierno / SP":6,
+    "ama de casa":7,"Ama de casa":7,
+    "estudiante":8,"Estudiante":8,
+    "desempleado":9,"Desempleado":9,
+    "jubilado o pensionado":10,"Jubilado / pensionado":10,
+    "migrante":11,"Migrante":11,
+    "otro":12,"Otros":12
+  };
+  return codigoUnico(valor,mapa);
+}
+function normalizaGrupoCodigo(texto){
+  var mapa={"Indígena":1,"situación de calle":2,"LGBT":3,"discapacidad":4,"migrante":5,"ninguno":6,"Otro":7};
+  return codigoMultiple(texto,mapa);
+}
+function normalizaSegSocialCodigo(texto){
+  var mapa={"IMSS":1,"ISSSTE":2,"SSA":3,"BIENESTAR":4,"IMSS BIENESTAR":4,"SEMAR":5,"PEMEX":6,"privado":7,"Privado":7,"ninguno":8,"Ninguno":8,"Otro":9};
+  return codigoMultiple(texto,mapa);
+}
+
+function fechaTextoISO(valor){
+  // Fuerza la fecha como texto ISO para evitar que Excel la muestre como serial (ej. 46192).
+  if(!valor) return "";
+  valor = String(valor).trim();
+  // Si ya viene como YYYY-MM-DD, se conserva y se fuerza como texto con apóstrofo.
+  var m = valor.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m) return "'" + m[1] + "-" + m[2] + "-" + m[3];
+  // Si viniera como DD/MM/YYYY, convertir a YYYY-MM-DD.
+  m = valor.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if(m){
+    var dd=String(m[1]).padStart(2,"0"), mm=String(m[2]).padStart(2,"0"), yyyy=m[3];
+    return "'" + yyyy + "-" + mm + "-" + dd;
+  }
+  return "'" + valor;
+}
+function payload(){
+  var grupos=checks("grupo","grupo_otro");
+  var seg=checks("seguridad_social","seguridad_social_otro");
+  var estado=r("estado_civil");
+  var sexo=r("sexo");
+  var ocup=v("ocupacion");
+  var p8=r("p8_alimentos_no_caseros");
+  var p9=r("p9_bebidas_azucaradas");
+  var p10=r("p10_agua");
+  var p11=r("p11_actividad_fisica");
+  var p12=r("p12_etiquetado");
+  return {
+    "No.":v("no_registro"),
+    "ID":v("id_encuestado"),
+    "fecha":fechaTextoISO(v("fecha")),
+    "Nombre_aplicador":v("aplicador"),
+    "Consecutivo_ localidad":"",
+    "Jurisdicción":"",
+    "Localidad":v("localidad"),
+    "Municipio":v("municipio"),
+    "Nombre":v("nombre"),
+    "Dirección":v("direccion"),
+    "Teléfono":v("telefono"),
+    "Edad_años":v("edad"),
+    "Sexo":normalizaSexo(sexo),
+    "Estado_civil":normalizaEstadoCivil(estado),
+    "Grupo_vulnerable":grupos,
+    "Grupo_vulnerable_codigo":normalizaGrupoCodigo(grupos),
+    "Seg_social":seg,
+    "Seg_social_codigo":normalizaSegSocialCodigo(seg),
+    "Ocupación":normalizaOcupacion(ocup),
+    "Años_estudio":v("anios_estudio"),
+    "Alimentos_chatarra":normalizaFrecuencia(p8),
+    "bebidas_azucaradas":normalizaFrecuencia(p9),
+    "agua_simple":normalizaFrecuencia(p10),
+    "actividad_física":normalizaFrecuencia(p11),
+    "etiquetado":normalizaEtiquetado(p12),
+    "peso":v("peso"),
+    "talla":v("talla"),
+    "IMC":v("imc"),
+    "cintura":v("cintura"),
+    "cadera":v("cadera"),
+    "ICC":v("icc"),
+    "PHQ_interes":v("phq2_p17"),
+    "PHQ_triste":v("phq2_p18"),
+    "PHQ2_Total":v("puntaje_phq2"),
+    "PHQ_dormir":v("phq9_p19"),
+    "PHQ_cansancio":v("phq9_p20"),
+    "PHQ_apetito":v("phq9_p21"),
+    "PHQ_sentirse_mal":v("phq9_p22"),
+    "PHQ_concentrarse":v("phq9_p23"),
+    "PHQ_movimiento_inquietud":v("phq9_p24"),
+    "PHQ_pensamientos_lastimarse":v("phq9_p25"),
+    "PHQ9_Total":v("puntaje_phq9"),
+    "PHQ_Clasificacion":v("clasificacion_phq9"),
+    "_texto_respaldo": {
+      "Sexo_texto": sexo,
+      "Estado_civil_texto": estado,
+      "Ocupacion_texto": ocup,
+      "Alimentos_chatarra_texto": p8,
+      "Bebidas_azucaradas_texto": p9,
+      "Agua_simple_texto": p10,
+      "Actividad_fisica_texto": p11,
+      "Etiquetado_texto": p12
+    }
+  };
+}
+function normalizeForSheets(p){
+  // Permite sincronizar capturas viejas que quedaron pendientes con nombres anteriores.
+  if(p && p["No."]!==undefined)return p;
+  var grupos=p.p4_grupos||"";
+  var seg=p.p5_seguridad_social||"";
+  return {
+    "No.":p.no_registro||"",
+    "ID":p.id||"",
+    "fecha":fechaTextoISO(p.fecha||""),
+    "Nombre_aplicador":p.aplicador||"",
+    "Consecutivo_ localidad":"",
+    "Jurisdicción":"",
+    "Localidad":p.localidad||"",
+    "Municipio":p.municipio||"",
+    "Nombre":p.nombre||"",
+    "Dirección":p.direccion||"",
+    "Teléfono":p.contacto_telefono||"",
+    "Edad_años":p.p1_edad||"",
+    "Sexo":normalizaSexo(p.p2_sexo||""),
+    "Estado_civil":normalizaEstadoCivil(p.p3_estado_civil||""),
+    "Grupo_vulnerable":grupos,
+    "Grupo_vulnerable_codigo":normalizaGrupoCodigo(grupos),
+    "Seg_social":seg,
+    "Seg_social_codigo":normalizaSegSocialCodigo(seg),
+    "Ocupación":normalizaOcupacion(p.p6_ocupacion||""),
+    "Años_estudio":p.p7_anios_estudio||"",
+    "Alimentos_chatarra":normalizaFrecuencia(p.p8_alimentos_no_caseros||""),
+    "bebidas_azucaradas":normalizaFrecuencia(p.p9_bebidas_azucaradas||""),
+    "agua_simple":normalizaFrecuencia(p.p10_agua||""),
+    "actividad_física":normalizaFrecuencia(p.p11_actividad_fisica||""),
+    "etiquetado":normalizaEtiquetado(p.p12_etiquetado||""),
+    "peso":p.p13_peso||"",
+    "talla":p.p14_talla||"",
+    "IMC":p.imc||"",
+    "cintura":p.p15_cintura||"",
+    "cadera":p.p16_cadera||"",
+    "ICC":p.icc||"",
+    "PHQ_interes":p.p17_phq2||"",
+    "PHQ_triste":p.p18_phq2||"",
+    "PHQ2_Total":p.puntaje_phq2||"",
+    "PHQ_dormir":p.p19_phq9||"",
+    "PHQ_cansancio":p.p20_phq9||"",
+    "PHQ_apetito":p.p21_phq9||"",
+    "PHQ_sentirse_mal":p.p22_phq9||"",
+    "PHQ_concentrarse":p.p23_phq9||"",
+    "PHQ_movimiento_inquietud":p.p24_phq9||"",
+    "PHQ_pensamientos_lastimarse":p.p25_phq9||"",
+    "PHQ9_Total":p.puntaje_phq9||"",
+    "PHQ_Clasificacion":p.clasificacion_phq9||""
+  };
+}
+function buildReview(){var p=payload();var sections={"Identificación":[["Nombre",p["Nombre"]],["Fecha",p["fecha"]],["ID",p["ID"]],["Aplicador",p["Nombre_aplicador"]],["Localidad",p["Localidad"]],["Municipio",p["Municipio"]],["Edad",p["Edad_años"]],["Sexo",p._texto_respaldo.Sexo_texto||p["Sexo"]]],"Datos generales":[["Estado civil",p._texto_respaldo.Estado_civil_texto||p["Estado_civil"]],["Grupos",p["Grupo_vulnerable"]],["Seguridad social",p["Seg_social"]],["Ocupación",p._texto_respaldo.Ocupacion_texto||p["Ocupación"]],["Años estudio",p["Años_estudio"]]],"Hábitos":[["P8",p._texto_respaldo.Alimentos_chatarra_texto||p["Alimentos_chatarra"]],["P9",p._texto_respaldo.Bebidas_azucaradas_texto||p["bebidas_azucaradas"]],["P10",p._texto_respaldo.Agua_simple_texto||p["agua_simple"]],["P11",p._texto_respaldo.Actividad_fisica_texto||p["actividad_física"]],["P12",p._texto_respaldo.Etiquetado_texto||p["etiquetado"]]],"Antropometría":[["Peso",p["peso"]],["Talla",p["talla"]],["IMC",(p["IMC"]||"")+" "+(v("clasificacion_imc")||"")],["Cintura",p["cintura"]],["Cadera",p["cadera"]],["ICC",(p["ICC"]||"")+" "+(v("clasificacion_icc")||"")]],"Salud Mental":[["PHQ-2",p["PHQ2_Total"]],["PHQ-9",p["PHQ9_Total"]? p["PHQ9_Total"]+" "+p["PHQ_Clasificacion"]:"No aplica"]]};var html='<div class="review-grid">';Object.keys(sections).forEach(function(k){html+='<div class="review-card"><h3>'+k+'</h3>';sections[k].forEach(function(row){html+='<div class="review-row"><span>'+row[0]+'</span><span>'+(row[1]||"—")+'</span></div>'});html+='</div>';});html+='</div>';document.getElementById("review-content").innerHTML=html;}
+function submitForm(){if(!validateStep(0))return;var p=payload();setLoading(true);if(!navigator.onLine){saveLocal(p);setLoading(false);showSuccess("Guardado localmente",false);return;}sendPayload(p).then(function(data){showSuccess(data.folio||"Sincronizado",true)}).catch(function(){saveLocal(p);showSuccess("Guardado localmente",false)}).finally(function(){setLoading(false);});}
+function sendPayload(p){p=normalizeForSheets(p);return fetch(APPS_SCRIPT_URL,{method:"POST",body:JSON.stringify(p)}).then(function(res){return res.json()}).then(function(data){if(data && (data.ok===true || data.status==="ok"))return data;if(data && data.folio)return data;throw new Error(data.error||"No confirmado");});}
+function getPending(){try{return JSON.parse(localStorage.getItem(storageKey)||"[]")}catch(e){return []}}function setPending(arr){localStorage.setItem(storageKey,JSON.stringify(arr));updatePendingText();}
+function saveLocal(p){var arr=getPending();p._local_id="LOCAL-"+Date.now();p._pendiente=true;arr.push(p);setPending(arr);}
+function syncPending(silent){var arr=getPending();if(!arr.length){if(!silent)showToast("No hay registros pendientes");return;}if(!navigator.onLine){showToast("Sin internet. Los registros siguen guardados localmente.");return;}var done=[],fail=[];Promise.all(arr.map(function(item){return sendPayload(item).then(function(){done.push(item)}).catch(function(){fail.push(item)})})).then(function(){setPending(fail);showToast("Sincronizados: "+done.length+". Pendientes: "+fail.length);});}
+function updatePendingText(){document.getElementById("pending-text").textContent="Pendientes: "+getPending().length;}function updateNetStatus(){var s=document.getElementById("net-status");s.textContent=navigator.onLine?"Con internet":"Sin internet";s.className="status-badge "+(navigator.onLine?"online":"offline");}
+function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
+function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular y se sincronizará cuando haya internet.";updatePendingText();}
+function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+</script>
+</body>
+</html>
