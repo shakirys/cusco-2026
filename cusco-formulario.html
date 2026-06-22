@@ -85,6 +85,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
 /* ===== FIN AJUSTE RESPONSIVE PC + MOVIL ===== */
 
 </style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#002f2a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CUSCO 2026">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
 <header class="site-header"><div class="header-brand"><div class="brand-box">SC</div><div><div class="brand-name">SierraConecta</div><div class="brand-sub">Sierra Gorda · Querétaro</div></div></div><span class="header-badge">CUSCO 2026 · Offline</span></header>
@@ -365,6 +372,16 @@ function updatePendingText(){document.getElementById("pending-text").textContent
 function setLoading(on){var b=document.getElementById("btn-submit");b.disabled=on;document.getElementById("btn-text").textContent=on?"Guardando...":"Guardar registro";document.getElementById("btn-spinner").style.display=on?"inline-block":"none";}
 function showSuccess(folio,online){document.getElementById("step-4").classList.remove("active");document.getElementById("steps-bar").style.display="none";document.getElementById("success-screen").style.display="block";document.getElementById("success-screen").classList.add("active");document.getElementById("success-folio").textContent=folio;document.getElementById("success-sub").textContent=online?"El registro fue enviado a Google Sheets.":"El registro quedó guardado en este equipo/celular y se sincronizará cuando haya internet.";updatePendingText();}
 function resetForm(){location.reload()}function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(function(){t.style.display="none"},5000);}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(function(reg) { console.log('CUSCO PWA activa:', reg.scope); })
+      .catch(function(err) { console.warn('No se pudo registrar Service Worker:', err); });
+  });
+}
 </script>
 </body>
 </html>
